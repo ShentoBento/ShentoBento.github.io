@@ -28,24 +28,36 @@
     --accent: #7aa8ff; --accent-soft: #1a2436; --shadow: none;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 Inter, -apple-system, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
   .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+
+  /* page frame: sticky contents list on the left, content on the right */
+  .frame { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+  .layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 44px; }
+  main { min-width: 0; max-width: 980px; }
 
   /* top bar */
   .top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-  .top .wrap { display: flex; justify-content: space-between; align-items: center; height: 54px; }
+  .top .frame { display: flex; justify-content: space-between; align-items: center; height: 54px; }
   .top b { font-weight: 600; letter-spacing: .2px; }
   .top nav { display: flex; gap: 20px; font-size: 14.5px; }
   .top nav a { color: var(--muted); }
   .top nav a:hover { color: var(--fg); text-decoration: none; }
 
+  /* contents list */
+  .toc { position: sticky; top: 78px; align-self: start; padding-top: 60px; font-size: 14px; }
+  .toc p { font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.3px; color: var(--muted); font-weight: 600; margin: 18px 0 6px; }
+  .toc p:first-child { margin-top: 0; }
+  .toc a { display: block; color: var(--muted); padding: 5px 0 5px 12px; border-left: 2px solid var(--line); line-height: 1.35; }
+  .toc a:hover { color: var(--fg); text-decoration: none; }
+  .toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+
   /* hero */
   .hero { display: grid; grid-template-columns: 168px 1fr; gap: 32px; align-items: center; padding: 56px 0 40px; }
-  .hero img { width: 168px; height: 168px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 1px solid var(--line); }
+  .hero img { width: 168px; height: 168px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); }
   .hero h1 { font-size: 34px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -.4px; }
   .hero .lede { font-size: 18px; margin: 0 0 12px; color: var(--fg); max-width: 640px; }
   .hero .seeking { display: inline-block; font-size: 14.5px; background: var(--accent-soft); color: var(--fg); border-radius: 8px; padding: 8px 12px; margin: 0 0 16px; }
@@ -59,10 +71,12 @@
   .tools { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; margin-bottom: 40px; }
   .tools b { color: var(--fg); font-weight: 600; margin-right: 6px; }
 
-  /* sections */
+  /* projects */
   .section-label { font-size: 12.5px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); margin: 0 0 14px; font-weight: 600; }
   .project { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px; margin-bottom: 28px; box-shadow: var(--shadow); }
-  .project h2 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; letter-spacing: -.2px; }
+  .phead { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 20px; flex-wrap: wrap; margin-bottom: 6px; }
+  .project h2 { font-size: 24px; line-height: 1.25; margin: 0; letter-spacing: -.2px; }
+  .when { font-size: 15px; font-style: italic; color: var(--muted); white-space: nowrap; }
   .project h3 { font-size: 15.5px; margin: 22px 0 4px; }
   .project p { margin: 6px 0; max-width: 720px; }
   .meta { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
@@ -73,17 +87,23 @@
   .stats .l { font-size: 12.5px; color: var(--muted); }
   .repo-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin-top: 14px; }
 
-  /* galleries */
-  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+  /* galleries: landscape by default, .tall for 3:4 phone photos, .taller for 9:16 */
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
   .gallery.two { grid-template-columns: repeat(2, 1fr); }
-  .gallery figure { margin: 0; }
-  .gallery button { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; cursor: zoom-in; aspect-ratio: 4 / 3; }
+  .gallery.one { grid-template-columns: 1fr; }
+  .gallery figure { margin: 0; display: flex; flex-direction: column; }
+  .gallery button { display: block; position: relative; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; cursor: zoom-in; aspect-ratio: 4 / 3; }
+  .gallery.tall button { aspect-ratio: 3 / 4; }
+  .gallery.taller button { aspect-ratio: 9 / 16; }
+  .gallery.wide169 button { aspect-ratio: 16 / 9; }
   .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
   .gallery img.contain { object-fit: contain; }
   .gallery button:hover img { transform: scale(1.03); }
+  /* a wide figure spans two columns and matches the height of its row neighbour */
   .gallery .wide { grid-column: span 2; }
-  .gallery .wide button { aspect-ratio: auto; height: calc(100% - 26px); min-height: 180px; }
-  figcaption { font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+  .gallery .wide button { aspect-ratio: auto; flex: 1 1 0; min-height: 0; }
+  .gallery .wide img { position: absolute; inset: 0; }
+  figcaption { font-size: 12.5px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
 
   .small-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
   .small-grid .project { margin-bottom: 0; }
@@ -99,6 +119,11 @@
   dialog p { color: #e6e6e6; font-size: 14px; margin: 8px 2px 0; }
   dialog .close { position: fixed; top: 14px; right: 18px; background: none; border: none; color: #fff; font-size: 30px; cursor: pointer; line-height: 1; }
 
+  @media (max-width: 1100px) {
+    .layout { display: block; }
+    .toc { display: none; }
+    main { margin: 0 auto; }
+  }
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; gap: 18px; padding: 32px 0 28px; }
     .hero img { width: 120px; height: 120px; }
@@ -108,6 +133,7 @@
     .stats { grid-template-columns: repeat(2, 1fr); }
     .gallery, .small-grid .gallery { grid-template-columns: repeat(2, 1fr); }
     .gallery .wide { grid-column: span 2; }
+    .gallery .wide button { aspect-ratio: 16 / 9; flex: none; }
     .small-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 420px) { .top nav a.hide-sm { display: none; } }
@@ -116,7 +142,7 @@
 <body>
 
 <header class="top">
-  <div class="wrap">
+  <div class="frame">
     <b>Andrew Shentu</b>
     <nav>
       <a href="#projects">Projects</a>
@@ -126,9 +152,28 @@
   </div>
 </header>
 
-<main class="wrap">
+<div class="frame layout">
+  <aside class="toc" aria-label="Contents">
+    <nav>
+      <p>Contents</p>
+      <a href="#about">About</a>
+      <p>Personal projects</p>
+      <a href="#keyboard-pcbs">Keyboard PCBs</a>
+      <a href="#case">Aluminum keyboard case</a>
+      <a href="#iem">In-ear monitors</a>
+      <p>Team and course projects</p>
+      <a href="#hand">Bionic hand</a>
+      <a href="#weatherdog">Weather station</a>
+      <a href="#arm">Robotic arm (CAD)</a>
+      <a href="#claw">Rover claw</a>
+      <p>&nbsp;</p>
+      <a href="#contact">Contact</a>
+    </nav>
+  </aside>
 
-  <section class="hero">
+<main>
+
+  <section class="hero" id="about">
     <img src="img/me.jpg" alt="Andrew Shentu" width="168" height="168">
     <div>
       <h1>Andrew Shentu</h1>
@@ -146,12 +191,12 @@
   <div class="tools"><b>Tools used in these projects</b> KiCad · SolidWorks · SMD and through-hole soldering · FDM and resin 3D printing · laser cutting · IEC-711 acoustic coupler · JLCPCB assembly · QMK / VIA</div>
 
   <section id="projects">
-    <p class="section-label">My own projects</p>
+    <p class="section-label">Personal projects</p>
 
     <!-- KEYBOARD PCBs -->
     <article class="project" id="keyboard-pcbs">
-      <h2>Keyboard PCBs: Velvet Pro and Uni60</h2>
-      <div class="meta mono">Solo · Mar 2026 – present · KiCad · STM32F072 · QMK/VIA · JLCPCB assembly</div>
+      <div class="phead"><h2>Keyboard PCBs: Velvet Pro and Uni60</h2><span class="when">Mar 2026 – present</span></div>
+      <div class="meta mono">Solo · KiCad · STM32F072 · QMK/VIA · JLCPCB assembly</div>
       <p>My first two PCBs designed from scratch. Both are now in other people's keyboards.</p>
 
       <div class="stats">
@@ -193,12 +238,12 @@
 
     <!-- CASE -->
     <article class="project" id="case">
-      <h2>Aluminum keyboard case</h2>
-      <div class="meta mono">Solo · 2026 · SolidWorks · 6063 aluminum · CNC machining and anodizing, sourced overseas</div>
+      <div class="phead"><h2>Aluminum keyboard case</h2><span class="when">2026</span></div>
+      <div class="meta mono">Solo · SolidWorks · 6063 aluminum · CNC machining and anodizing, sourced overseas</div>
       <p>A 60% case for my own boards. It's an O-ring mount, meaning the plate and PCB are held in the case by a rubber O-ring instead of being screwed down, with a brass weight in the bottom. I found a manufacturer to CNC-machine the case and plates from 6063 aluminum and anodize them, and made two units: one for me and one for a friend.</p>
       <h3>Fixing the ping</h3>
       <p>Typing on v1 made a metallic ping. I traced it to the weight: it's long and was held by only two M3 screws, so its unsupported middle vibrated against the case. Rev 2 (five units) holds it with six screws. Once rev 2 is made, I want to record typing on both versions and compare their spectra.</p>
-      <div class="gallery two">
+      <div class="gallery two tall">
         <figure><button data-full="img/case-v1.jpg"><img src="img/case-v1.jpg" alt="Blue anodized aluminum case with brass weight" loading="lazy"></button><figcaption>v1 case with its brass weight (manufacturer's photo)</figcaption></figure>
         <figure><button data-full="img/case-v1-pair.jpg"><img src="img/case-v1-pair.jpg" alt="Two blue aluminum cases and two plates" loading="lazy"></button><figcaption>Both v1 cases and their plates</figcaption></figure>
       </div>
@@ -206,8 +251,8 @@
 
     <!-- IEM -->
     <article class="project" id="iem">
-      <h2>Multi-driver in-ear monitors <span class="tag">In progress</span></h2>
-      <div class="meta mono">Solo · May 2026 – present · KiCad · SolidWorks · IEC-711 coupler · Rev 2 funded by IEEE at UCLA</div>
+      <div class="phead"><h2>Multi-driver in-ear monitors <span class="tag">In progress</span></h2><span class="when">May 2026 – present</span></div>
+      <div class="meta mono">Solo · KiCad · SolidWorks · IEC-711 coupler · Rev 2 funded by IEEE at UCLA</div>
       <p>In-ear monitors with four balanced-armature drivers per side, each covering part of the frequency range. I designed the crossover, a small PCB shaped to fit inside the shell with one filter branch per driver, and the resin shell in SolidWorks.</p>
       <p>For rev 1, I measured each driver's frequency response on an IEC-711 coupler and chose filter values to pull the combined response toward a target curve: a measurement of an IEM I like, after EQ.</p>
       <h3>How rev 1 turned out</h3>
@@ -226,12 +271,12 @@
 
     <!-- BIONIC HAND -->
     <article class="project" id="hand">
-      <h2>Tendon-driven bionic hand</h2>
-      <div class="meta mono">Team of 3 · Fall 2025 · UCLA engineering course · SolidWorks · 3D printing</div>
+      <div class="phead"><h2>Tendon-driven bionic hand</h2><span class="when">Fall 2025</span></div>
+      <div class="meta mono">Team of 3 · UCLA engineering course · SolidWorks · 3D printing</div>
       <p>A 3D-printed hand on a forearm. Five servos inside the forearm each pull a fishing-line tendon that curls one finger. I designed the hand and forearm in SolidWorks; my teammates wrote the Arduino code.</p>
-      <p>The hard part was packaging: placing five servo mounts so the forearm could still be assembled, routing five tendons so they never cross, and shaping the tendon channels so they printed without collapsing. I set the finger joint geometry so the thumb and index finger meet at full closure. In the final build all five fingers moved, and the hand could pinch grape-sized objects.</p>
-      <div class="gallery">
-        <figure><button data-full="img/hand-built.jpg"><img src="img/hand-built.jpg" alt="Finished bionic hand on its forearm" loading="lazy" style="object-position:50% 20%"></button><figcaption>The finished hand</figcaption></figure>
+      <p>The hard part was packing five servos into the forearm so it could still be assembled, routing five tendons so they never cross, and shaping the tendon channels so they printed without collapsing. I set the finger joint geometry so the thumb and index finger meet at full closure. In the final build all five fingers moved, and the hand could pinch grape-sized objects.</p>
+      <div class="gallery taller">
+        <figure><button data-full="img/hand-built.jpg"><img src="img/hand-built.jpg" alt="Finished bionic hand on its forearm" loading="lazy"></button><figcaption>The finished hand</figcaption></figure>
         <figure><button data-full="img/hand-forearm.jpg"><img src="img/hand-forearm.jpg" alt="Servos and battery pack packaged inside the forearm" loading="lazy"></button><figcaption>Servos and battery pack inside the forearm</figcaption></figure>
         <figure><button data-full="img/hand-wiring.jpg"><img src="img/hand-wiring.jpg" alt="Forearm during assembly" loading="lazy"></button><figcaption>During assembly</figcaption></figure>
       </div>
@@ -239,10 +284,10 @@
 
     <!-- WEATHERDOG -->
     <article class="project" id="weatherdog">
-      <h2>Solar-tracking weather station</h2>
+      <div class="phead"><h2>Solar-tracking weather station</h2><span class="when">Apr 2026</span></div>
       <div class="meta mono">Team of 5 · IDEA Hacks 2026, a 36-hour hackathon · laser cutting · servo mechanism</div>
       <p>A weather station that turns its solar panel toward the sun. I did the body and the moving parts: a laser-cut plywood enclosure with finger joints, and a servo-driven acrylic turntable that rotates the panel. My teammates built the electronics, which read humidity, wind speed, solar irradiance and dust.</p>
-      <div class="gallery">
+      <div class="gallery tall">
         <figure><button data-full="img/wd-station.jpg"><img src="img/wd-station.jpg" alt="Weather station with solar panel on a turntable" loading="lazy"></button><figcaption>The station at the end of the hackathon</figcaption></figure>
         <figure><button data-full="img/wd-turntable.jpg"><img src="img/wd-turntable.jpg" alt="Acrylic turntable and panel mast" loading="lazy"></button><figcaption>Turntable and panel mast</figcaption></figure>
         <figure><button data-full="img/wd-mechanism.jpg"><img src="img/wd-mechanism.jpg" alt="Turning mechanism" loading="lazy"></button><figcaption>Turning mechanism</figcaption></figure>
@@ -252,22 +297,22 @@
     <div class="small-grid">
       <!-- MAE 94 -->
       <article class="project" id="arm">
-        <h2>6-DOF robotic arm (CAD)</h2>
-        <div class="meta mono">Team of 3 · Summer 2026 · UCLA MAE 94 · SolidWorks</div>
+        <div class="phead"><h2>6-DOF robotic arm (CAD)</h2><span class="when">Summer 2026</span></div>
+        <div class="meta mono">Team of 3 · UCLA MAE 94 · SolidWorks</div>
         <p>A six-degree-of-freedom arm designed entirely in SolidWorks: 26 unique parts, 116 components, four subassemblies. I designed the base and lower-limb subassemblies and wrote the manufacturing section of our report, including hole and shaft tolerances for 3D printing (±0.15 mm) versus CNC milling (±0.05 mm). It was a CAD-only course project.</p>
         <div class="gallery">
           <figure><button data-full="img/arm-master.jpg"><img class="contain" src="img/arm-master.jpg" alt="Full arm assembly render" loading="lazy"></button><figcaption>Full assembly</figcaption></figure>
           <figure><button data-full="img/arm-base.jpg"><img class="contain" src="img/arm-base.jpg" alt="Base subassembly, exploded and assembled" loading="lazy"></button><figcaption>Base subassembly (mine)</figcaption></figure>
-          <figure class="wide"><button data-full="img/arm-lower.jpg"><img class="contain" src="img/arm-lower.jpg" alt="Lower limb subassembly, exploded and assembled" loading="lazy"></button><figcaption>Lower-limb subassembly (mine)</figcaption></figure>
+          <figure class="wide"><button data-full="img/arm-lower.jpg" style="aspect-ratio:16/7;flex:none"><img class="contain" src="img/arm-lower.jpg" alt="Lower limb subassembly, exploded and assembled" loading="lazy"></button><figcaption>Lower-limb subassembly (mine)</figcaption></figure>
         </div>
       </article>
 
       <!-- CLAW -->
       <article class="project" id="claw">
-        <h2>Rover claw</h2>
-        <div class="meta mono">Team of 4 · Fall 2025 · UCLA engineering course · SolidWorks · 3D printing</div>
+        <div class="phead"><h2>Rover claw</h2><span class="when">Fall 2025</span></div>
+        <div class="meta mono">Team of 4 · UCLA engineering course · SolidWorks · 3D printing</div>
         <p>The team built an autonomous mecanum-wheel rover with ultrasonic sensors. I modeled the claw: a servo turns a gear that converts its rotation into the straight-line motion that closes the claw. Getting the gear mesh clearance right took two printed iterations. A software issue kept the rover from completing its final run.</p>
-        <div class="gallery" style="grid-template-columns:1fr">
+        <div class="gallery one wide169">
           <figure><button data-full="img/claw.jpg"><img src="img/claw.jpg" alt="3D-printed claw parts with drive gear" loading="lazy"></button><figcaption>Printed claw parts and drive gear</figcaption></figure>
         </div>
       </article>
@@ -285,9 +330,11 @@
     Last updated October 2026.
   </footer>
 </main>
+</div>
 
 <dialog id="lb"><button class="close" aria-label="Close">×</button><img alt=""><p></p></dialog>
 <script>
+  // lightbox
   const lb = document.getElementById('lb');
   document.querySelectorAll('.gallery button').forEach(b => b.addEventListener('click', () => {
     lb.querySelector('img').src = b.dataset.full;
@@ -296,6 +343,25 @@
     lb.showModal();
   }));
   lb.addEventListener('click', () => lb.close());
+
+  // contents list: highlight the section in view
+  const links = [...document.querySelectorAll('.toc a')];
+  const byId = Object.fromEntries(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const targets = Object.keys(byId).map(id => document.getElementById(id)).filter(Boolean);
+  const setActive = id => links.forEach(a => a.classList.toggle('active', a === byId[id]));
+  const spy = () => {
+    const line = window.innerHeight * 0.3;
+    let current = targets[0].id;
+    for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t.id;
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = targets[targets.length - 1].id;
+    setActive(current);
+  };
+  window.addEventListener('scroll', spy, { passive: true });
+  window.addEventListener('resize', spy);
+  // also re-check whenever a section crosses into or out of view (covers jumps that skip scroll events)
+  const io = new IntersectionObserver(spy, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  targets.forEach(t => io.observe(t));
+  spy();
 </script>
 </body>
 </html>
