@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrew Shentu | Hardware Projects</title>
+<meta name="description" content="Andrew Shentu, UCLA Electrical Engineering. Keyboard PCBs taken through two production runs, a CNC aluminum case, in-ear monitor crossovers, and mechanical design.">
+<meta property="og:title" content="Andrew Shentu | Hardware Projects">
+<meta property="og:description" content="UCLA Electrical Engineering. PCB design, production runs, and the enclosures around them.">
+<meta property="og:image" content="https://shentobento.github.io/img/kb-velvet-run.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5fbf'/%3E%3Ctext x='16' y='22' font-family='Helvetica,Arial' font-size='16' font-weight='700' fill='white' text-anchor='middle'%3EAS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #ffffff; --fg: #15171c; --muted: #5a616e; --line: #e2e2dd;
+    --accent: #1f5fbf; --accent-soft: #e8effa; --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1115; --card: #161920; --fg: #e8e9ec; --muted: #9aa1ad; --line: #262a33;
+      --accent: #7aa8ff; --accent-soft: #1a2436; --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115; --card: #161920; --fg: #e8e9ec; --muted: #9aa1ad; --line: #262a33;
+    --accent: #7aa8ff; --accent-soft: #1a2436; --shadow: none;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 Inter, -apple-system, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+
+  /* top bar */
+  .top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; justify-content: space-between; align-items: center; height: 54px; }
+  .top b { font-weight: 600; letter-spacing: .2px; }
+  .top nav { display: flex; gap: 20px; font-size: 14.5px; }
+  .top nav a { color: var(--muted); }
+  .top nav a:hover { color: var(--fg); text-decoration: none; }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 168px 1fr; gap: 32px; align-items: center; padding: 56px 0 40px; }
+  .hero img { width: 168px; height: 168px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 1px solid var(--line); }
+  .hero h1 { font-size: 34px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -.4px; }
+  .hero .lede { font-size: 18px; margin: 0 0 12px; color: var(--fg); max-width: 640px; }
+  .hero .seeking { display: inline-block; font-size: 14.5px; background: var(--accent-soft); color: var(--fg); border-radius: 8px; padding: 8px 12px; margin: 0 0 16px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 500; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); }
+  .btn:hover { border-color: var(--accent); text-decoration: none; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  :root[data-theme="dark"] .btn.primary { color: #0f1115; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #0f1115; } }
+
+  .tools { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; margin-bottom: 40px; }
+  .tools b { color: var(--fg); font-weight: 600; margin-right: 6px; }
+
+  /* sections */
+  .section-label { font-size: 12.5px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); margin: 0 0 14px; font-weight: 600; }
+  .project { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 28px; margin-bottom: 28px; box-shadow: var(--shadow); }
+  .project h2 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; letter-spacing: -.2px; }
+  .project h3 { font-size: 15.5px; margin: 22px 0 4px; }
+  .project p { margin: 6px 0; max-width: 720px; }
+  .meta { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-left: 8px; vertical-align: 3px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 18px 0 6px; }
+  .stats div { background: var(--card); padding: 12px 14px; }
+  .stats .n { font-size: 26px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stats .l { font-size: 12.5px; color: var(--muted); }
+  .repo-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin-top: 14px; }
+
+  /* galleries */
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+  .gallery.two { grid-template-columns: repeat(2, 1fr); }
+  .gallery figure { margin: 0; }
+  .gallery button { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; cursor: zoom-in; aspect-ratio: 4 / 3; }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+  .gallery img.contain { object-fit: contain; }
+  .gallery button:hover img { transform: scale(1.03); }
+  .gallery .wide { grid-column: span 2; }
+  .gallery .wide button { aspect-ratio: auto; height: calc(100% - 26px); min-height: 180px; }
+  figcaption { font-size: 12.5px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+
+  .small-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .small-grid .project { margin-bottom: 0; }
+  .small-grid .gallery { grid-template-columns: repeat(2, 1fr); }
+
+  footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 28px 0 48px; font-size: 14.5px; color: var(--muted); }
+  footer .links { margin: 10px 0 14px; }
+
+  /* lightbox */
+  dialog { border: none; padding: 0; background: transparent; max-width: 94vw; max-height: 92vh; }
+  dialog::backdrop { background: rgba(0,0,0,.82); }
+  dialog img { max-width: 94vw; max-height: 84vh; display: block; border-radius: 6px; background: #fff; }
+  dialog p { color: #e6e6e6; font-size: 14px; margin: 8px 2px 0; }
+  dialog .close { position: fixed; top: 14px; right: 18px; background: none; border: none; color: #fff; font-size: 30px; cursor: pointer; line-height: 1; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; gap: 18px; padding: 32px 0 28px; }
+    .hero img { width: 120px; height: 120px; }
+    .hero h1 { font-size: 28px; }
+    .top nav { gap: 14px; }
+    .project { padding: 20px 16px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .gallery, .small-grid .gallery { grid-template-columns: repeat(2, 1fr); }
+    .gallery .wide { grid-column: span 2; }
+    .small-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 420px) { .top nav a.hide-sm { display: none; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <b>Andrew Shentu</b>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="Andrew_Shentu_Resume.pdf">Resume</a>
+      <a href="#contact" class="hide-sm">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <img src="img/me.jpg" alt="Andrew Shentu" width="168" height="168">
+    <div>
+      <h1>Andrew Shentu</h1>
+      <p class="lede">Electrical engineering student at UCLA (B.S. expected December 2027). I design PCBs and the enclosures around them, and I've taken my own boards through two production runs.</p>
+      <p class="seeking">Looking for a <b>Summer 2027</b> hardware or electrical engineering internship. Available June 14 to mid-September 2027. U.S. citizen.</p>
+      <div class="links">
+        <a class="btn primary" href="Andrew_Shentu_Resume.pdf">Resume (PDF)</a>
+        <a class="btn" href="https://github.com/ShentoBento">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/andrewshentu">LinkedIn</a>
+        <a class="btn" href="mailto:shentuandrew@gmail.com">Email</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="tools"><b>Tools used in these projects</b> KiCad · SolidWorks · SMD and through-hole soldering · FDM and resin 3D printing · laser cutting · IEC-711 acoustic coupler · JLCPCB assembly · QMK / VIA</div>
+
+  <section id="projects">
+    <p class="section-label">My own projects</p>
+
+    <!-- KEYBOARD PCBs -->
+    <article class="project" id="keyboard-pcbs">
+      <h2>Keyboard PCBs: Velvet Pro and Uni60</h2>
+      <div class="meta mono">Solo · Mar 2026 – present · KiCad · STM32F072 · QMK/VIA · JLCPCB assembly</div>
+      <p>My first two PCBs designed from scratch. Both are now in other people's keyboards.</p>
+
+      <div class="stats">
+        <div><div class="n">65</div><div class="l">boards built in 2 runs</div></div>
+        <div><div class="n">62</div><div class="l">delivered, sold at cost</div></div>
+        <div><div class="n">26</div><div class="l">customers</div></div>
+        <div><div class="n">0</div><div class="l">failures reported</div></div>
+      </div>
+
+      <h3>What they are</h3>
+      <p>The Velvet Pro board is a drop-in solder PCB for the Velvet Pro, a keyboard by Ampersandy, who supported the project and gave me the board outline. The Uni60 reuses its matrix and MCU routing and turns it into a universal 60% board: ANSI and ISO, split backspace, split left and right shift, stepped caps, and five bottom-row layouts. I re-routed the matrix around tray-mount holes drilled between the keys so it also fits tray-mount cases.</p>
+      <p>Both boards use an STM32F072, get USB through a separate daughterboard over a 4-pin cable, and run QMK with VIA support, so owners can remap keys without compiling firmware.</p>
+
+      <h3>The connector problem</h3>
+      <p>Custom cases route the daughterboard cable through a channel, and every case puts that channel somewhere different. A JST-SH connector is tall enough to hit the case floor anywhere outside the channel. I placed five daisy-chained JST-SH positions where popular cases' channels line up, and builders clip off the ones they don't need. A sixth option, a Molex Pico-EZmate, sits lower than the switch pins on the back of the board, so it fits any case.</p>
+
+      <h3>Production and testing</h3>
+      <p>I ran two assembled batches through JLCPCB: 15 Velvet Pro boards in April 2026 and 50 Uni60s in September 2026. I made the fabrication and assembly files, picked the parts, and packed and shipped every order myself. Before shipping, I flashed each board with QMK and shorted every row and column to confirm the MCU could read the whole matrix.</p>
+      <p>That test doesn't catch a single bad diode or a broken trace to one key. A per-key check is what I'd add to the next run.</p>
+
+      <div class="gallery">
+        <figure class="wide"><button data-full="img/kb-connectors.jpg"><img class="contain" src="img/kb-connectors.jpg" alt="Uni60 connector positions labeled by case" loading="lazy"></button><figcaption>Uni60 connector positions, labeled by the cases they fit</figcaption></figure>
+        <figure><button data-full="img/kb-velvet-run.jpg"><img src="img/kb-velvet-run.jpg" alt="15 Velvet Pro PCBs on foam" loading="lazy"></button><figcaption>The April run: 15 Velvet Pro boards</figcaption></figure>
+        <figure><button data-full="img/kb-uni60-box.jpg"><img src="img/kb-uni60-box.jpg" alt="Box of Uni60 PCBs in ESD bags" loading="lazy"></button><figcaption>The September run: 50 Uni60s</figcaption></figure>
+        <figure><button data-full="img/kb-uni60-bags.jpg"><img src="img/kb-uni60-bags.jpg" alt="Uni60 boards packed for shipping" loading="lazy"></button><figcaption>Uni60 orders packed for shipping</figcaption></figure>
+        <figure><button data-full="img/kb-uni60-board.jpg"><img src="img/kb-uni60-board.jpg" alt="A finished Uni60 PCB" loading="lazy"></button><figcaption>A finished Uni60</figcaption></figure>
+        <figure><button data-full="img/kb-vp-mcu.jpg"><img src="img/kb-vp-mcu.jpg" alt="Velvet Pro PCB layout around the STM32F072" loading="lazy"></button><figcaption>Velvet Pro layout around the STM32F072</figcaption></figure>
+        <figure><button data-full="img/kb-uni60-schematic.png"><img class="contain" src="img/kb-uni60-schematic.png" alt="Uni60 schematic" loading="lazy"></button><figcaption>Uni60 schematic</figcaption></figure>
+        <figure><button data-full="img/kb-layouts.png"><img class="contain" src="img/kb-layouts.png" alt="Uni60 supported layouts" loading="lazy"></button><figcaption>Layouts the Uni60 supports</figcaption></figure>
+      </div>
+
+      <div class="repo-links">
+        <a href="https://github.com/ShentoBento/Universal_PCBs">Uni60 design files ↗</a>
+        <a href="https://github.com/ShentoBento/Velvet-Pro-Solder-PCB">Velvet Pro design files ↗</a>
+        <a href="https://github.com/ShentoBento/Universal_PCBs_Firmware">Uni60 firmware ↗</a>
+        <a href="https://github.com/ShentoBento/Velvet-Pro-PCB-Firmware">Velvet Pro firmware ↗</a>
+      </div>
+    </article>
+
+    <!-- CASE -->
+    <article class="project" id="case">
+      <h2>Aluminum keyboard case</h2>
+      <div class="meta mono">Solo · 2026 · SolidWorks · 6063 aluminum · CNC machining and anodizing, sourced overseas</div>
+      <p>A 60% case for my own boards. It's an O-ring mount, meaning the plate and PCB are held in the case by a rubber O-ring instead of being screwed down, with a brass weight in the bottom. I found a manufacturer to CNC-machine the case and plates from 6063 aluminum and anodize them, and made two units: one for me and one for a friend.</p>
+      <h3>Fixing the ping</h3>
+      <p>Typing on v1 made a metallic ping. I traced it to the weight: it's long and was held by only two M3 screws, so its unsupported middle vibrated against the case. Rev 2 (five units) holds it with six screws. Once rev 2 is made, I want to record typing on both versions and compare their spectra.</p>
+      <div class="gallery two">
+        <figure><button data-full="img/case-v1.jpg"><img src="img/case-v1.jpg" alt="Blue anodized aluminum case with brass weight" loading="lazy"></button><figcaption>v1 case with its brass weight (manufacturer's photo)</figcaption></figure>
+        <figure><button data-full="img/case-v1-pair.jpg"><img src="img/case-v1-pair.jpg" alt="Two blue aluminum cases and two plates" loading="lazy"></button><figcaption>Both v1 cases and their plates</figcaption></figure>
+      </div>
+    </article>
+
+    <!-- IEM -->
+    <article class="project" id="iem">
+      <h2>Multi-driver in-ear monitors <span class="tag">In progress</span></h2>
+      <div class="meta mono">Solo · May 2026 – present · KiCad · SolidWorks · IEC-711 coupler · Rev 2 funded by IEEE at UCLA</div>
+      <p>In-ear monitors with four balanced-armature drivers per side, each covering part of the frequency range. I designed the crossover, a small PCB shaped to fit inside the shell with one filter branch per driver, and the resin shell in SolidWorks.</p>
+      <p>For rev 1, I measured each driver's frequency response on an IEC-711 coupler and chose filter values to pull the combined response toward a target curve: a measurement of an IEM I like, after EQ.</p>
+      <h3>How rev 1 turned out</h3>
+      <p>Not well. The final response was 3 to 5 dB off the target and didn't sound good. Two things went wrong. Balanced-armature drivers don't behave like resistors: their impedance changes a lot with frequency, so a filter calculated for a fixed load crosses over in the wrong place. And the acoustic low-pass channels I tried printing into the resin shell collapsed and came out at uneven sizes. I also didn't keep good records of rev 1, so there's no measurement plot here yet.</p>
+      <h3>Rev 2</h3>
+      <p>Rev 2 is funded by a $150 grant from IEEE at UCLA's Student Project Initiative. This time I'm modeling each driver's measured impedance in LTspice before picking parts, aiming to land within ±2 dB of the target, and documenting the build as I go.</p>
+      <div class="gallery">
+        <figure><button data-full="img/iem-render.jpg"><img class="contain" src="img/iem-render.jpg" alt="KiCad render of the IEM crossover PCB" loading="lazy"></button><figcaption>Crossover PCB, KiCad render</figcaption></figure>
+        <figure><button data-full="img/iem-layout.png"><img class="contain" src="img/iem-layout.png" alt="IEM crossover PCB layout" loading="lazy"></button><figcaption>PCB layout</figcaption></figure>
+        <figure><button data-full="img/iem-schematic.png"><img class="contain" src="img/iem-schematic.png" alt="IEM crossover schematic" loading="lazy"></button><figcaption>Schematic: one filter branch per driver</figcaption></figure>
+      </div>
+      <div class="repo-links"><a href="https://github.com/ShentoBento/IEM_Crossover">Crossover design files ↗</a></div>
+    </article>
+
+    <p class="section-label" style="margin-top:44px">Team and course projects</p>
+
+    <!-- BIONIC HAND -->
+    <article class="project" id="hand">
+      <h2>Tendon-driven bionic hand</h2>
+      <div class="meta mono">Team of 3 · Fall 2025 · UCLA engineering course · SolidWorks · 3D printing</div>
+      <p>A 3D-printed hand on a forearm. Five servos inside the forearm each pull a fishing-line tendon that curls one finger. I designed the hand and forearm in SolidWorks; my teammates wrote the Arduino code.</p>
+      <p>The hard part was packaging: placing five servo mounts so the forearm could still be assembled, routing five tendons so they never cross, and shaping the tendon channels so they printed without collapsing. I set the finger joint geometry so the thumb and index finger meet at full closure. In the final build all five fingers moved, and the hand could pinch grape-sized objects.</p>
+      <div class="gallery">
+        <figure><button data-full="img/hand-built.jpg"><img src="img/hand-built.jpg" alt="Finished bionic hand on its forearm" loading="lazy" style="object-position:50% 20%"></button><figcaption>The finished hand</figcaption></figure>
+        <figure><button data-full="img/hand-forearm.jpg"><img src="img/hand-forearm.jpg" alt="Servos and battery pack packaged inside the forearm" loading="lazy"></button><figcaption>Servos and battery pack inside the forearm</figcaption></figure>
+        <figure><button data-full="img/hand-wiring.jpg"><img src="img/hand-wiring.jpg" alt="Forearm during assembly" loading="lazy"></button><figcaption>During assembly</figcaption></figure>
+      </div>
+    </article>
+
+    <!-- WEATHERDOG -->
+    <article class="project" id="weatherdog">
+      <h2>Solar-tracking weather station</h2>
+      <div class="meta mono">Team of 5 · IDEA Hacks 2026, a 36-hour hackathon · laser cutting · servo mechanism</div>
+      <p>A weather station that turns its solar panel toward the sun. I did the body and the moving parts: a laser-cut plywood enclosure with finger joints, and a servo-driven acrylic turntable that rotates the panel. My teammates built the electronics, which read humidity, wind speed, solar irradiance and dust.</p>
+      <div class="gallery">
+        <figure><button data-full="img/wd-station.jpg"><img src="img/wd-station.jpg" alt="Weather station with solar panel on a turntable" loading="lazy"></button><figcaption>The station at the end of the hackathon</figcaption></figure>
+        <figure><button data-full="img/wd-turntable.jpg"><img src="img/wd-turntable.jpg" alt="Acrylic turntable and panel mast" loading="lazy"></button><figcaption>Turntable and panel mast</figcaption></figure>
+        <figure><button data-full="img/wd-mechanism.jpg"><img src="img/wd-mechanism.jpg" alt="Turning mechanism" loading="lazy"></button><figcaption>Turning mechanism</figcaption></figure>
+      </div>
+    </article>
+
+    <div class="small-grid">
+      <!-- MAE 94 -->
+      <article class="project" id="arm">
+        <h2>6-DOF robotic arm (CAD)</h2>
+        <div class="meta mono">Team of 3 · Summer 2026 · UCLA MAE 94 · SolidWorks</div>
+        <p>A six-degree-of-freedom arm designed entirely in SolidWorks: 26 unique parts, 116 components, four subassemblies. I designed the base and lower-limb subassemblies and wrote the manufacturing section of our report, including hole and shaft tolerances for 3D printing (±0.15 mm) versus CNC milling (±0.05 mm). It was a CAD-only course project.</p>
+        <div class="gallery">
+          <figure><button data-full="img/arm-master.jpg"><img class="contain" src="img/arm-master.jpg" alt="Full arm assembly render" loading="lazy"></button><figcaption>Full assembly</figcaption></figure>
+          <figure><button data-full="img/arm-base.jpg"><img class="contain" src="img/arm-base.jpg" alt="Base subassembly, exploded and assembled" loading="lazy"></button><figcaption>Base subassembly (mine)</figcaption></figure>
+          <figure class="wide"><button data-full="img/arm-lower.jpg"><img class="contain" src="img/arm-lower.jpg" alt="Lower limb subassembly, exploded and assembled" loading="lazy"></button><figcaption>Lower-limb subassembly (mine)</figcaption></figure>
+        </div>
+      </article>
+
+      <!-- CLAW -->
+      <article class="project" id="claw">
+        <h2>Rover claw</h2>
+        <div class="meta mono">Team of 4 · Fall 2025 · UCLA engineering course · SolidWorks · 3D printing</div>
+        <p>The team built an autonomous mecanum-wheel rover with ultrasonic sensors. I modeled the claw: a servo turns a gear that converts its rotation into the straight-line motion that closes the claw. Getting the gear mesh clearance right took two printed iterations. A software issue kept the rover from completing its final run.</p>
+        <div class="gallery" style="grid-template-columns:1fr">
+          <figure><button data-full="img/claw.jpg"><img src="img/claw.jpg" alt="3D-printed claw parts with drive gear" loading="lazy"></button><figcaption>Printed claw parts and drive gear</figcaption></figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <b style="color:var(--fg)">Get in touch</b>
+    <div class="links">
+      <a class="btn primary" href="mailto:shentuandrew@gmail.com">shentuandrew@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/andrewshentu">LinkedIn</a>
+      <a class="btn" href="https://github.com/ShentoBento">GitHub</a>
+      <a class="btn" href="Andrew_Shentu_Resume.pdf">Resume (PDF)</a>
+    </div>
+    Last updated October 2026.
+  </footer>
+</main>
+
+<dialog id="lb"><button class="close" aria-label="Close">×</button><img alt=""><p></p></dialog>
+<script>
+  const lb = document.getElementById('lb');
+  document.querySelectorAll('.gallery button').forEach(b => b.addEventListener('click', () => {
+    lb.querySelector('img').src = b.dataset.full;
+    lb.querySelector('img').alt = b.querySelector('img').alt;
+    lb.querySelector('p').textContent = b.parentElement.querySelector('figcaption')?.textContent || '';
+    lb.showModal();
+  }));
+  lb.addEventListener('click', () => lb.close());
+</script>
+</body>
+</html>
