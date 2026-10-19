@@ -105,9 +105,6 @@
   .gallery .wide img { position: absolute; inset: 0; }
   figcaption { font-size: 12.5px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
 
-  .small-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-  .small-grid .project { margin-bottom: 0; }
-  .small-grid .gallery { grid-template-columns: repeat(2, 1fr); }
 
   footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 28px 0 48px; font-size: 14.5px; color: var(--muted); }
   footer .links { margin: 10px 0 14px; }
@@ -131,10 +128,9 @@
     .top nav { gap: 14px; }
     .project { padding: 20px 16px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .gallery, .small-grid .gallery { grid-template-columns: repeat(2, 1fr); }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
     .gallery .wide { grid-column: span 2; }
     .gallery .wide button { aspect-ratio: 16 / 9; flex: none; }
-    .small-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 420px) { .top nav a.hide-sm { display: none; } }
 </style>
@@ -294,29 +290,30 @@
       </div>
     </article>
 
-    <div class="small-grid">
-      <!-- MAE 94 -->
-      <article class="project" id="arm">
-        <div class="phead"><h2>6-DOF robotic arm (CAD)</h2><span class="when">Summer 2026</span></div>
-        <div class="meta mono">Team of 3 · UCLA MAE 94 · SolidWorks</div>
-        <p>A six-degree-of-freedom arm designed entirely in SolidWorks: 26 unique parts, 116 components, four subassemblies. I designed the base and lower-limb subassemblies and wrote the manufacturing section of our report, including hole and shaft tolerances for 3D printing (±0.15 mm) versus CNC milling (±0.05 mm). It was a CAD-only course project.</p>
-        <div class="gallery">
-          <figure><button data-full="img/arm-master.jpg"><img class="contain" src="img/arm-master.jpg" alt="Full arm assembly render" loading="lazy"></button><figcaption>Full assembly</figcaption></figure>
-          <figure><button data-full="img/arm-base.jpg"><img class="contain" src="img/arm-base.jpg" alt="Base subassembly, exploded and assembled" loading="lazy"></button><figcaption>Base subassembly (mine)</figcaption></figure>
-          <figure class="wide"><button data-full="img/arm-lower.jpg" style="aspect-ratio:16/7;flex:none"><img class="contain" src="img/arm-lower.jpg" alt="Lower limb subassembly, exploded and assembled" loading="lazy"></button><figcaption>Lower-limb subassembly (mine)</figcaption></figure>
-        </div>
-      </article>
+    <!-- MAE 94 -->
+    <article class="project" id="arm">
+      <div class="phead"><h2>6-DOF robotic arm (CAD)</h2><span class="when">Summer 2026</span></div>
+      <div class="meta mono">Team of 3 · UCLA MAE 94 · SolidWorks</div>
+      <p>A six-degree-of-freedom arm designed entirely in SolidWorks: 26 unique parts, 116 components, four subassemblies. I designed the base and lower-limb subassemblies, co-wrote the design concepts and specifications, and wrote the manufacturing and fabrication section of our report, including hole and shaft tolerances for 3D printing (±0.15 mm) versus CNC milling (±0.05 mm). It was a CAD-only course project.</p>
+      <div class="gallery">
+        <figure><button data-full="img/arm-master.jpg"><img class="contain" src="img/arm-master.jpg" alt="Full arm assembly render" loading="lazy"></button><figcaption>Full assembly</figcaption></figure>
+        <figure class="wide"><button data-full="img/arm-base.jpg"><img class="contain" src="img/arm-base.jpg" alt="Base subassembly, exploded and assembled" loading="lazy"></button><figcaption>Base subassembly, exploded and assembled (mine)</figcaption></figure>
+        <figure class="wide"><button data-full="img/arm-lower.jpg"><img class="contain" src="img/arm-lower.jpg" alt="Lower limb subassembly, exploded and assembled" loading="lazy"></button><figcaption>Lower-limb subassembly, exploded and assembled (mine)</figcaption></figure>
+        <figure><button data-full="img/arm-motion.jpg"><img class="contain" src="img/arm-motion.jpg" alt="Arm render showing a moving link" loading="lazy"></button><figcaption>Motion study</figcaption></figure>
+      </div>
+      <div class="repo-links"><a href="docs/MAE94_Robotic_Arm_Report.pdf">Full design report (PDF, 29 pages) ↗</a></div>
+    </article>
 
-      <!-- CLAW -->
-      <article class="project" id="claw">
-        <div class="phead"><h2>Rover claw</h2><span class="when">Fall 2025</span></div>
-        <div class="meta mono">Team of 4 · UCLA engineering course · SolidWorks · 3D printing</div>
-        <p>The team built an autonomous mecanum-wheel rover with ultrasonic sensors. I modeled the claw: a servo turns a gear that converts its rotation into the straight-line motion that closes the claw. Getting the gear mesh clearance right took two printed iterations. A software issue kept the rover from completing its final run.</p>
-        <div class="gallery one wide169">
-          <figure><button data-full="img/claw.jpg"><img src="img/claw.jpg" alt="3D-printed claw parts with drive gear" loading="lazy"></button><figcaption>Printed claw parts and drive gear</figcaption></figure>
-        </div>
-      </article>
-    </div>
+    <!-- CLAW -->
+    <article class="project" id="claw">
+      <div class="phead"><h2>Rover claw</h2><span class="when">Fall 2025</span></div>
+      <div class="meta mono">Team of 4 · UCLA engineering course · SolidWorks · 3D printing</div>
+      <p>The team built an autonomous mecanum-wheel rover with ultrasonic sensors. I modeled the claw: a servo turns a gear that converts its rotation into the straight-line motion that closes the claw. Getting the gear mesh clearance right took two printed iterations. A software issue kept the rover from completing its final run.</p>
+      <div class="gallery">
+        <figure class="wide"><button data-full="img/claw.jpg"><img src="img/claw.jpg" alt="3D-printed claw parts with drive gear" loading="lazy"></button><figcaption>Printed claw parts and drive gear (mine)</figcaption></figure>
+        <figure><button data-full="img/rover.jpg" style="aspect-ratio:3/4"><img src="img/rover.jpg" alt="The team's mecanum-wheel rover" loading="lazy"></button><figcaption>The team's rover</figcaption></figure>
+      </div>
+    </article>
   </section>
 
   <footer id="contact">
